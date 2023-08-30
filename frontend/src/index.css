@@ -15,3 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.yellowInnerBorder{
+  -webkit-box-shadow: inset 0px 0px 0px 4px rgba(254,199,0,1);
+  -moz-box-shadow: inset 0px 0px 0px 4px rgba(254,199,0,1);
+  box-shadow: inset 0px 0px 0px 4px rgba(254,199,0,1);
+}

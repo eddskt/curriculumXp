@@ -11,8 +11,15 @@ module.exports = {
     './src/routes/**/*.{html,js}'],
   theme: {
     extend: {
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
+      },
       colors: {
         bluePrimary: '#0152e9',
+        blueDark: '#004da3',
+        blueLight: '#508fd9',
         blueSecondary: '#d6e7f7',
         redGrad1: '#f36200',
         redGrad2: '#bb3100',
@@ -43,6 +50,14 @@ module.exports = {
         dot: '0 0 0 1px #fff',
         btn: '0 8px 13px rgba(130, 49 ,211, 0.13)',
         faq: '0 15px 40px rgba(116, 116 ,116, 0.08)',*/
+      },
+      dropShadow: {
+        'appTextDk': '0 3px 2px rgba(0, 0, 0, 1)',
+        '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
+        '4xl': [
+            '0 35px 35px rgba(0, 0, 0, 0.25)',
+            '0 45px 65px rgba(0, 0, 0, 0.15)'
+        ]
       },
       borderWidth: {
         1: '1px',
@@ -95,6 +110,17 @@ module.exports = {
       'min-4xl': '1699px',
     },
   },
-  plugins: [],
+  plugins: [
+    // plugin(function ({ matchUtilities, theme }) {
+    //   matchUtilities(
+    //     {
+    //       'text-shadow': (value) => ({
+    //         textShadow: value,
+    //       }),
+    //     },
+    //     { values: theme('textShadow') }
+    //   )
+    // }),
+  ],
 }
 
