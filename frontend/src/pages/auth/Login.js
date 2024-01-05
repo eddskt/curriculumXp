@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Row, Col, Input, Form } from "antd";
 import { duckProfile, whiteLogo } from '../../static';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { faArrowRight, faQuestion, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+//import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 const Login = () => {
   const [authed, dispatch] = AuthConsumer();
@@ -69,13 +70,14 @@ const Login = () => {
                     }}>
                       <div className='flex bg-gradient-to-b from-green-500 to-green-600 h-10 w-10 rounded-6 justify-center items-center p-1 border-1 border-grayPrimary 
                         shadow-[inset_2px_4px_3px_1px_rgba(255,255,255,0.4)]'>
-                        <FontAwesomeIcon icon={icon({name: 'arrow-right'})} fontSize={30} color='white' style={{fontWeight: 'bolder'}} />
+                        
+                        <FontAwesomeIcon icon={faArrowRight} fontSize={30} color='white' style={{fontWeight: 'bolder'}}/>
                       </div>
                     </button>
                     <button className='ml-2 shadow-md'>
                       <div className='flex bg-gradient-to-b from-blueLight to-blueDark h-10 w-10 rounded-6 justify-center items-center p-1 border-1 border-grayPrimary 
                         shadow-[inset_3px_3px_4px_0_rgba(255,255,255,0.4)]'>
-                        <FontAwesomeIcon icon={icon({name: 'question'})} fontSize={30} color='white' style={{fontWeight: 'bolder'}} />
+                        <FontAwesomeIcon icon={faQuestion} fontSize={30} color='white' style={{fontWeight: 'bolder'}} />
                       </div>
                     </button>
                     </div>
@@ -94,7 +96,7 @@ const Login = () => {
               <div className='ml-2 shadow-md'>
                 <div className='flex bg-gradient-to-b from-orange-600 to-red-600 h-10 w-10 rounded-6 justify-center items-center p-1 border-1 border-grayPrimary 
                   shadow-[inset_3px_3px_4px_0_rgba(255,255,255,0.4)] border-b-1 '>
-                  <FontAwesomeIcon icon={icon({name: 'power-off'})} fontSize={28} color='white' style={{fontWeight: 'bolder'}} />
+                  <FontAwesomeIcon icon={faPowerOff} fontSize={28} color='white' style={{fontWeight: 'bolder'}} />
                 </div>
               </div>
               <p className='pl-3 text-2xl text-white'>Desligar o computador</p>

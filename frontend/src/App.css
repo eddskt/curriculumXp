@@ -7,6 +7,38 @@
   pointer-events: none;
 }
 
+.desktop-active {
+  border: 2px dotted #c8c8c8;
+}
+
+.application-bottom-bar{
+  background-color: #1387f7;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+}
+.application-bottom-bar.active{
+  background-color: #1951ba;
+}
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {  }
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {  }
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {  }
+
+/* X-Large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) { 
+  .application-bottom-bar{
+    min-width: 160px;
+  }
+ }
+
+/* XX-Large devices (larger desktops, 1400px and up)*/
+@media (min-width: 1400px) {  }
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
