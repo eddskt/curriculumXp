@@ -68,3 +68,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+Detalhes que mais gostei de fazer:
+Ajuste da borda na aplicação no desktop ao dar o primeiro click (Tracejado)
+A Borda interna das aplicações na barra de tarefas (Sombreamento preto para efeito de profundidade)
+A Barra de tarefas em si e a forma de alternar entre as aplicações.
+ 
+
+Refatoração/Melhoria:
+Refatorar em componentes a Taskbar, as Aplicações e alguns outros elementos.
+Melhorar e Refatorar o CSS e as Configurações do Tailwind adaptando as minhas Necessidades e removendo Inline. 
+Criação do Backend em NextJS.
+Sistema de Login/Aplicações ativas e Storage baseado em user session com utilização de Redux.
+Criação de Menu de Contexto.
+
+E Alguns outros segredos que vou deixar para mais tarde hahahah
+
+Alguns cuidados que tive que ter e foram melhorias no meu aprendizado:
+Ao abrir as aplicações, deveriam ir para o final da Taskbar, inicalmente abriam pelo começo, lado esquerdo.
+
+Ao atualizar as aplicações abertas, pelo reflexo que o useState tem nas aplicações e seu funcionamento assincrono, tive que reformular o método de escrita no array, que incialmente só atualizava após a 2º escrita setApplications(applications), poderia fazer adaptações com useEffect, porém a melhor forma foi escrever a sintaxe correta, com retorno de chamada setApplications(prev => ([...app])
+https://stackoverflow.com/questions/54069253/the-usestate-set-method-is-not-reflecting-a-change-immediately

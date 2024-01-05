@@ -15,9 +15,48 @@
   background-color: #1387f7;
   padding-left: 0.5rem;
   padding-right: 1rem;
+
+  -webkit-box-shadow: inset 1px 1px 4px 1px #679bfd;
+  -moz-box-shadow: inset 1px 1px 4px 1px #679bfd;
+  box-shadow: inset 1px 1px 4px 1px #679bfd;
 }
 .application-bottom-bar.active{
   background-color: #1951ba;
+  -webkit-box-shadow: inset 1px 1px 4px 1px #002c7e;
+  -moz-box-shadow: inset 1px 1px 4px 1px #002c7e;
+  box-shadow: inset 1px 1px 4px 1px #002c7e;
+}
+
+.appTop{
+  background-color: #022dd2;
+  justify-content: space-between;
+  height: 38px;
+  align-items: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  box-shadow: inset 4px 16px 24px -16px #e2e4e8; /* White shadow internal effect, changes to make windows Vista Style*/
+}
+
+.topButton{
+  border: 1px solid white;
+  border-radius: 4px;
+  height: 28px;
+  width: 30px;
+  padding: 1px;
+}
+
+.topButton.close{
+  background-color: #eb2626;
+  box-shadow: inset 2px 3px 4px 1px #f96c6c;
+}
+
+.notepad{
+  left: 100px;
+  top: 100px;
+  width: 50%;
+  height: 600px;
+  box-shadow: inset 0px 0px 0px 3px #022dd2;
+  background: #efefe6;
 }
 
 /* Small devices (landscape phones, 576px and up)*/
