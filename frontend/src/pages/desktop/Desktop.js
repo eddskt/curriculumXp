@@ -101,7 +101,26 @@ const Desktop = () => {
         return app;
       }
     });
-    setApplications(prevApplications => ([...help]))
+    setApplications(prevApplications => ([...help]));
+  }
+
+  const handleClickTopWindowPopup = (type, clicado) => {
+
+    const help = applications.map((app, index) => {
+      if(clicado === app.id){
+        if(type === "close"){
+          app.active = false;
+          app.opened = false;
+          setActiveDesktopButton(0);
+          setOppenedOrder((prevApplications) => (
+            [...prevApplications.filter((number) => number !== clicado)]
+          ))
+        }
+      }
+      return app;
+    });
+    setApplications(prevApplications => ([...help]));
+    console.log(applications, oppenedOrder);
   }
 
   return (
@@ -112,11 +131,13 @@ const Desktop = () => {
       <Row className="flex flex-col z-20 absolute w-full py-4" gutter={[0, 40]}>
       {applications.map((application, index) => (
         <Col xs={10} sm={8} md={6} lg={4} xl={4} xxl={2} className={`flex flex-col items-center`}>
-          <button className={`flex flex-col items-center p-1 min-w-[128px] ${activeDesktopButton === application.id ? 'desktop-active -m-[2px]': ''}`} onClick={(e) => {handleClickOpenApplication(e, application.id)}} >
+          <button className={`flex flex-col items-center p-1 min-w-[128px] 
+          ${activeDesktopButton === application.id ? 'desktop-active -m-[2px]': ''}`} 
+          onClick={(e) => {handleClickOpenApplication(e, application.id)}} >
             <img src={application.icon} className='w-12'/>
             <p className='text-base text-white drop-shadow-appTextDk'>{application.name}</p>
           </button>
-          </Col>
+        </Col>
         ))
       }
       </Row>
@@ -177,24 +198,32 @@ const Desktop = () => {
                 <p className='text-white font-bold'>{application.name}</p>
               </div>
               <div className='buttonGroup flex flex-row w-auto gap-1'>
-                <button className='topButton minimize'>
+                <button className='topButton minimize' 
+                onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
                   <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
                 </button>
-                <button className='topButton maximize'>
+                <button className='topButton maximize' 
+                onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
                   <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
                 </button>
-                <button className='topButton close'>
+                <button className='topButton close' 
+                onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
                   <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
                 </button>
               </div>
             </div>
             <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
-              <button>File</button>
-              <button>Edit</button>
-              <button>View</button>
-              <button>Favorite</button>
-              <button>Tools</button>
-              <button>Help</button>
+              <button disabled>File</button>
+              <button disabled>Edit</button>
+              <button disabled>View</button>
+              <button disabled>Favorite</button>
+              <button disabled>Tools</button>
+              <button disabled>Help</button>
+            </div>
+            <div className="text-areaNotepadDiv w-full my-1 px-1">
+              <textarea rows="14" className='areaNotepad w-full px-2'>
+
+              </textarea>
             </div>
           </div> : <></>
         ))

@@ -50,13 +50,27 @@
   box-shadow: inset 2px 3px 4px 1px #f96c6c;
 }
 
+.appOptions > button:disabled{
+  color: #b3b3b3
+}
+
 .notepad{
   left: 100px;
   top: 100px;
   width: 50%;
-  height: 600px;
+  height: auto;
   box-shadow: inset 0px 0px 0px 3px #022dd2;
   background: #efefe6;
+}
+
+textarea{
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 /* Small devices (landscape phones, 576px and up)*/
