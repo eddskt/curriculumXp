@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-no-undef */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import AuthConsumer from "../../auth/AuthProvider";
 import { backgroundDefault, myComputer, window } from '../../static';
 import { Row, Col } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowMinimize, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faWindowMaximize, faMaximize} from '@fortawesome/free-regular-svg-icons';
+import Draggable, {DraggableCore} from 'react-draggable';
 
 const Desktop = () => {
   const [authed, dispatch] = AuthConsumer();
@@ -191,43 +192,45 @@ const Desktop = () => {
 
       {
         applications.map((application, index) => (
-          application.opened ? <div className={` absolute z-[22] notepad rounded-10`}>
-            <div className='appTop flex flex-row px-2'>
-              <div className='leftGroup flex flex-row w-fit'>
-                <img src={application.icon} height={25} width={20} className='mr-2'/>
-                <p className='text-white font-bold'>{application.name}</p>
+          application.opened ? <Draggable>
+            <div className="absolute z-[22] notepad rounded-10">
+              <div className='appTop flex flex-row px-2'>
+                <div className='leftGroup flex flex-row w-fit'>
+                  <img src={application.icon} height={25} width={20} className='mr-2'/>
+                  <p className='text-white font-bold'>{application.name}</p>
+                </div>
+                <div className='buttonGroup flex flex-row w-auto gap-1'>
+                  <button className='topButton minimize' 
+                  onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                    <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+                  </button>
+                  <button className='topButton maximize' 
+                  onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                    <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+                  </button>
+                  <button className='topButton close' 
+                  onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                    <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+                  </button>
+                </div>
               </div>
-              <div className='buttonGroup flex flex-row w-auto gap-1'>
-                <button className='topButton minimize' 
-                onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
-                  <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
-                </button>
-                <button className='topButton maximize' 
-                onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
-                  <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
-                </button>
-                <button className='topButton close' 
-                onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
-                  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
-                </button>
+              <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
+                <button disabled>File</button>
+                <button disabled>Edit</button>
+                <button disabled>View</button>
+                <button disabled>Favorite</button>
+                <button disabled>Tools</button>
+                <button disabled>Help</button>
               </div>
-            </div>
-            <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
-              <button disabled>File</button>
-              <button disabled>Edit</button>
-              <button disabled>View</button>
-              <button disabled>Favorite</button>
-              <button disabled>Tools</button>
-              <button disabled>Help</button>
-            </div>
-            <div className="text-areaNotepadDiv w-full my-1 px-1">
-              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
-                ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
-  Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
-  I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
-              }</textarea>
-            </div>
-          </div> : <></>
+              <div className="text-areaNotepadDiv w-full my-1 px-1">
+                <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                  ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
+    Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
+    I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
+                }</textarea>
+              </div>
+            </div> 
+          </Draggable> : <></>
         ))
       }
     </div>

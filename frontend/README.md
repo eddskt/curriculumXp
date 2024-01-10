@@ -83,6 +83,7 @@ Melhorar e Refatorar o CSS e as Configurações do Tailwind adaptando as minhas 
 Criação do Backend em NextJS.
 Sistema de Login/Aplicações ativas e Storage baseado em user session com utilização de Redux.
 Criação de Menu de Contexto.
+Tradução com i18next (Acho uma boa ferramenta, já utilizei um outros projetos, e acho legal a ideia da tradução por folhas separadas, pois adiciona um contexto melhor do que traduções automatizadas, além de poder disponibilizar e receber apoio de pessoas locais.)
 
 E Alguns outros segredos que vou deixar para mais tarde hahahah
 
