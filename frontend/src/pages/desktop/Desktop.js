@@ -221,9 +221,11 @@ const Desktop = () => {
               <button disabled>Help</button>
             </div>
             <div className="text-areaNotepadDiv w-full my-1 px-1">
-              <textarea rows="14" className='areaNotepad w-full px-2'>
-
-              </textarea>
+              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
+  Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
+  I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
+              }</textarea>
             </div>
           </div> : <></>
         ))
