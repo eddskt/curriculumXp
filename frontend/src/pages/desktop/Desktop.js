@@ -5,9 +5,12 @@ import AuthConsumer from "../../auth/AuthProvider";
 import { backgroundDefault, myComputer, window } from '../../static';
 import { Row, Col } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faWindowMinimize, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faWindowMaximize, faMaximize} from '@fortawesome/free-regular-svg-icons';
+import { faStepBackward, faStepForward, faWindowMinimize, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faWindowMaximize, faForwardStep} from '@fortawesome/free-regular-svg-icons';
 import Draggable, {DraggableCore} from 'react-draggable';
+import { Uptoolbar } from '../components/general';
+import DeathScreenWithReturn from '../components/deathScreen/deathScreenWithReturn';
+import DeathScreenWithoutReturn from '../components/deathScreen/deathScreenWithoutReturn';
 
 const Desktop = () => {
   const [authed, dispatch] = AuthConsumer();
@@ -67,13 +70,24 @@ const Desktop = () => {
 
   const handleClickOpenApplication = (event, clicado) => {
     setActiveDesktopButton(clicado);
+    
     if (event.detail === 1) {
-      //console.log('one click', event);
+      const help = applications;
+      const helposo = help.map((app, index) => {
+        if(app.id === clicado){
+          if(app.opened) app.active = true;
+          return app;
+        }
+        if(app.id !== clicado && app.opened) {
+          app.active = false;
+          return app;
+        } 
+      });
+      setApplications(prevApplications => ([...help]));
     }
 
     if (event.detail === 2) {
       const help = applications;
-
       console.log(oppenedOrder);
       if(!oppenedOrder.includes(clicado)){
         setOppenedOrder(prevOppenedOrder => ([...prevOppenedOrder, clicado]));
@@ -116,6 +130,15 @@ const Desktop = () => {
           setOppenedOrder((prevApplications) => (
             [...prevApplications.filter((number) => number !== clicado)]
           ))
+        }else if(type === "min"){
+          app.minimized = true;
+          app.maximizer = false;
+          app.active = false;
+          setActiveDesktopButton(0);
+        }else if(type === "max"){
+          app.minimized = false;
+          app.maximizer = true;
+          setActiveDesktopButton(0);
         }
       }
       return app;
@@ -124,7 +147,7 @@ const Desktop = () => {
     console.log(applications, oppenedOrder);
   }
 
-  return (
+  window.width < 1199 ? (<DeathScreenWithoutReturn />) : (
     <div className='flex w-full h-full'>
       <div style={{backgroundImage: `url(${backgroundDefault})`}}
         className='w-full min-h-screen bg-cover bg-no-repeat bg-center z-10'>
@@ -160,7 +183,7 @@ const Desktop = () => {
             oppenedOrder.map((number) => (
               applications.map((application, index) => (
                 application.id === number ? <button className={`my-1 rounded whitespace-nowrap 
-                application-bottom-bar ${application.active ? 'active' : ''}
+                application-bottom-bar ${application.active ? ' active ' : ''}
                 text-ellipsis overflow-hidden flex flex-row 
                 max-w-[160px] px-2 items-center h-10
                 left-0`} onClick={(e) => {handleClickBottomBar(e, application.id)}}>
@@ -192,45 +215,200 @@ const Desktop = () => {
 
       {
         applications.map((application, index) => (
-          application.opened ? <Draggable>
-            <div className="absolute z-[22] notepad rounded-10">
-              <div className='appTop flex flex-row px-2'>
-                <div className='leftGroup flex flex-row w-fit'>
-                  <img src={application.icon} height={25} width={20} className='mr-2'/>
-                  <p className='text-white font-bold'>{application.name}</p>
+          application.opened ? application.type === 'notepad' ? <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow notepad rounded-10`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+            <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
+              <button disabled>File</button>
+              <button disabled>Edit</button>
+              <button disabled>View</button>
+              <button disabled>Favorite</button>
+              <button disabled>Tools</button>
+              <button disabled>Help</button>
+            </div>
+            <div className="text-areaNotepadDiv w-full my-1 px-1">
+              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
+  Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
+  I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
+              }</textarea>
+            </div>
+          </div> 
+        </Draggable> : 
+          application.type === 'photoview' ? 
+          <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow photoview rounded-10 w-fit`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+            <div className="flex flex-col text-areaNotepadDiv w-full my-1 px-0.5 place-items-center">
+              <div>
+                <img src={require('../../static/images/perfil.webp')} className='h-[500px]'/>
+              </div>
+              {/* <div className='w-fit h-10 flex flex-row'>
+                <div className='advances flex flex-row'>
+                  <button className='bg-gradient-to-t from-blue-700 to-blue-400 buttonPhotoView'
+                  onClick={() => {}}>  
+                    <FontAwesomeIcon icon={faStepBackward} fontSize={18} color='white'/> 
+                  </button>
+                  <button className='bg-gradient-to-t from-blue-700 to-blue-400 buttonPhotoView'
+                  onClick={() => {}}> 
+                    <FontAwesomeIcon icon={faStepForward} fontSize={18} color='white'/>
+                  </button>
                 </div>
-                <div className='buttonGroup flex flex-row w-auto gap-1'>
-                  <button className='topButton minimize' 
-                  onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
-                    <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
-                  </button>
-                  <button className='topButton maximize' 
-                  onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
-                    <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
-                  </button>
-                  <button className='topButton close' 
-                  onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
-                    <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
-                  </button>
+                <div className='appresentations flex flex-row'>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
                 </div>
-              </div>
-              <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
-                <button disabled>File</button>
-                <button disabled>Edit</button>
-                <button disabled>View</button>
-                <button disabled>Favorite</button>
-                <button disabled>Tools</button>
-                <button disabled>Help</button>
-              </div>
-              <div className="text-areaNotepadDiv w-full my-1 px-1">
-                <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
-                  ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
-    Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
-    I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
-                }</textarea>
-              </div>
-            </div> 
-          </Draggable> : <></>
+                <div className='zoom flex flex-row'>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                </div>
+                <div className='impressions  flex flex-row'>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                </div>
+                <div className='help flex flex-row'>
+                  <button className='buttonPhotoView'
+                  onClick={() => {}}>  <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  /> </button>
+                </div>
+              </div> */}
+            </div>
+          </div> 
+        </Draggable> : application.type === 'dllView' ? <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow notepad rounded-10`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+            <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
+              <button disabled>File</button>
+              <button disabled>Edit</button>
+              <button disabled>View</button>
+              <button disabled>Favorite</button>
+              <button disabled>Tools</button>
+              <button disabled>Help</button>
+            </div>
+            <div className="text-areaNotepadDiv w-full my-1 px-1">
+              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
+  Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
+  I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
+              }</textarea>
+            </div>
+          </div> 
+        </Draggable> : application.type === 'dllView' ? <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow notepad rounded-10`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+            <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
+              <button disabled>File</button>
+              <button disabled>Edit</button>
+              <button disabled>View</button>
+              <button disabled>Favorite</button>
+              <button disabled>Tools</button>
+              <button disabled>Help</button>
+            </div>
+            <div className="text-areaNotepadDiv w-full my-1 px-1">
+              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                ` I am a software developer passionate about HTML, CSS, styling and everything that involves the interface between the computer and the user, better known as Frontend.
+  Graduated in systems analysis and development, my best quality is finding, working around or solving problems (problem-driven, solution-driven).
+  I really like places that are open to suggestions, I believe that we professionals study and live within the area, looking for better solutions to real problems, to improve processes and solutions.`
+              }</textarea>
+            </div>
+          </div> 
+        </Draggable> : application.type === 'paint' ?
+          <DeathScreenWithoutReturn error={'MOBILE_OR_REMOTE_NOT_VALID'} steps={'Acess from another device.'} /> :
+          <></> : 
+          <></>
         ))
       }
     </div>
