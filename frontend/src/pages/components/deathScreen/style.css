@@ -2,21 +2,23 @@
   z-index: 99999;
   position: absolute;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   padding: 40px;
   display: flex;
   justify-content: center;
   justify-items: center;
   align-items: center;
+  overflow: scroll;
 }
 
 .deathScreenWithout {
   z-index: 99999;
   position: absolute;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   padding: 40px 40px;
   display: flex;
+  overflow: scroll;
   /*justify-content: center;
   justify-items: center;
   align-items: center;*/

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './style.css';
 
 function DeathScreenWithoutReturn({error, steps}) {
   
@@ -23,6 +24,7 @@ function DeathScreenWithoutReturn({error, steps}) {
         <br/><br/>
         Technical Information:
         *** STOP: 0x000000ED (0xMOBD, 0xSCR33N, 0xG1V3UP)
+        <br/>
         </p>
       </div>
     </div>

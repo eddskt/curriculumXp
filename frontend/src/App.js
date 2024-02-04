@@ -6,6 +6,8 @@ import { Auth, ForgotPassword, Login, Register } from './pages/auth';
 import PrivateRoutes from './utility/PrivateRoutes';
 import { Desktop } from './pages/desktop';
 import { Bios } from './pages/bios';
+import { isMobile, isTablet, isDesktop } from 'react-device-detect';
+import DeathScreenWithoutReturn from './pages/components/deathScreen/deathScreenWithoutReturn';
 
 function App() {
   const routes = useRoutes([
@@ -31,7 +33,7 @@ function App() {
     }
   ]);
 
-  return routes;
+  return isDesktop ? routes : <DeathScreenWithoutReturn error={'DEVICE_IS_NOT_VALID'} steps={'Access from another Device'}/>;
 
   // return (
   //   <div className='App'>

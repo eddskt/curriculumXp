@@ -9,8 +9,6 @@ import { faStepBackward, faStepForward, faWindowMinimize, faXmark } from '@forta
 import { faWindowMaximize, faForwardStep} from '@fortawesome/free-regular-svg-icons';
 import Draggable, {DraggableCore} from 'react-draggable';
 import { Uptoolbar } from '../components/general';
-import DeathScreenWithReturn from '../components/deathScreen/deathScreenWithReturn';
-import DeathScreenWithoutReturn from '../components/deathScreen/deathScreenWithoutReturn';
 
 const Desktop = () => {
   const [authed, dispatch] = AuthConsumer();
@@ -147,7 +145,7 @@ const Desktop = () => {
     console.log(applications, oppenedOrder);
   }
 
-  window.width < 1199 ? (<DeathScreenWithoutReturn />) : (
+  return (
     <div className='flex w-full h-full'>
       <div style={{backgroundImage: `url(${backgroundDefault})`}}
         className='w-full min-h-screen bg-cover bg-no-repeat bg-center z-10'>
@@ -406,7 +404,9 @@ const Desktop = () => {
             </div>
           </div> 
         </Draggable> : application.type === 'paint' ?
-          <DeathScreenWithoutReturn error={'MOBILE_OR_REMOTE_NOT_VALID'} steps={'Acess from another device.'} /> :
+          <div> paint </div> : 
+          application.type === 'outlookCard' ?
+          <div> paint </div> :
           <></> : 
           <></>
         ))
