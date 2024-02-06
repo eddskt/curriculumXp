@@ -9,6 +9,7 @@ import { faStepBackward, faStepForward, faWindowMinimize, faXmark } from '@forta
 import { faWindowMaximize, faForwardStep} from '@fortawesome/free-regular-svg-icons';
 import Draggable, {DraggableCore} from 'react-draggable';
 import { Uptoolbar } from '../components/general';
+import { Link } from 'react-router-dom';
 
 const Desktop = () => {
   const [authed, dispatch] = AuthConsumer();
@@ -403,10 +404,144 @@ const Desktop = () => {
               }</textarea>
             </div>
           </div> 
-        </Draggable> : application.type === 'paint' ?
-          <div> paint </div> : 
-          application.type === 'outlookCard' ?
-          <div> paint </div> :
+        </Draggable> : application.type === 'outlookCard' ?
+          <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow notepad rounded-10`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+           <div className='px-3 mb-3'>
+              <div className='tabs flex flex-row mt-2'>
+                <button className={`tabButton summary active`}>Summary</button>
+                <button className={`tabButton name `}>Name</button>
+                <button className={`tabButton home `}>Home</button>
+                <button className={`tabButton business `}>Business</button>
+                <button className={`tabButton personal `}>Personal</button>
+                <button className={`tabButton other `}>Other</button>
+                <button className={`tabButton netmeeting `}>NetMeeting</button>
+                <button className={`tabButton digitalids `}>Digital IDs</button>
+              </div>
+              <div className='fields bg-[#efefef]'>
+                <div className='header'>
+
+                </div>
+                <div className='fieldsValues container mt-4'>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Name:</div>
+                    <div className='container col-span-8'>Edson Filho</div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Email Address:</div>
+                    <div className='container col-span-8'>edsonfilho10@gmail.com</div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Home Phone:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Pager:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Mobile:</div>
+                    <div className='container col-span-8'>+351 933 019 954</div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Personal Web Page:</div>
+                    <div className='container col-span-8'><a href='https://www.github.com/eddskt' target='_blank' rel="noreferrer">Github</a></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Business Phone:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Business Fax:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Job Title:</div>
+                    <div className='container col-span-8'>Developer</div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Department:</div>
+                    <div className='container col-span-8'>Frontend</div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Office:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Company Name:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                  <div className='grid grid-cols-12 gap-2'>
+                    <div className='container col-span-4 text-right'>Business Web Page:</div>
+                    <div className='container col-span-8'></div>
+                  </div>
+                </div>
+              </div>
+           </div>
+          </div> 
+        </Draggable> : 
+          application.type === 'paint' ?
+          <Draggable>
+          <div onClick={(e) => {handleClickOpenApplication(e, application.id)}}
+          className={`${application.minimized ? ' hidden ' : ' absolute '} ${application.active ? 'z-[30]' : 'z-[20]'} basicwindow notepad rounded-10`}>
+          <div className='appTop flex flex-row px-2'>
+            <div className='leftGroup flex flex-row w-fit'>
+              <img src={application.icon} height={25} width={20} className='mr-2'/>
+              <p className='text-white font-bold'>{application.name}</p>
+            </div>
+            <div className='buttonGroup flex flex-row w-auto gap-1'>
+              <button className='topButton minimize' 
+              onClick={(e) => {handleClickTopWindowPopup("min", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMinimize} fontSize={18} color='white' style={{fontWeight: 'bolder'}} />
+              </button>
+              <button className='topButton maximize' 
+              onClick={(e) => {handleClickTopWindowPopup("max", application.id)}}>
+                <FontAwesomeIcon icon={faWindowMaximize} fontSize={24} color='white' style={{fontWeight: 'bolder'}} inverse/>
+              </button>
+              <button className='topButton close' 
+              onClick={(e) => {handleClickTopWindowPopup("close", application.id)}}>
+                <FontAwesomeIcon icon={faXmark} fontSize={28} color='white' style={{fontWeight: 'bolder'}}  />
+              </button>
+            </div>
+          </div>
+            {/* <Uptoolbar icon={application.icon} name={application.name} id={application.id} onClick={closeClick}/> */}
+            <div className='flex flex-row appOptions py-1 gap-4 pl-4'>
+              <button disabled>File</button>
+              <button disabled>Edit</button>
+              <button disabled>View</button>
+              <button disabled>Favorite</button>
+              <button disabled>Tools</button>
+              <button disabled>Help</button>
+            </div>
+            <div className="text-areaNotepadDiv w-full my-1 px-1">
+              <textarea rows="14" spellcheck="false" className='areaNotepad w-full px-2'>{
+                ` `
+              }</textarea>
+            </div>
+          </div> 
+        </Draggable> :
           <></> : 
           <></>
         ))
